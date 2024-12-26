@@ -16,5 +16,7 @@ let rec calc e =
     | Ast.Div -> (calc e1) / (calc e2)
 
 let () =
-  let result = parse "(5 - 9) * 4 + 2" |> calc in
+  print_endline "";
+  print_endline "Escreva uma expressão para números inteiros: ";
+  let result = read_line () |> parse |> calc in
   string_of_int result |> print_endline
