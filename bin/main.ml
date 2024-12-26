@@ -14,6 +14,10 @@ let rec calc e =
     | Ast.Sub -> (calc e1) - (calc e2)
     | Ast.Mul -> (calc e1) * (calc e2)
     | Ast.Div -> (calc e1) / (calc e2)
+    | Ast.Pow -> Float.pow
+                  (calc e1 |> float_of_int)
+                  (calc e2 |> float_of_int)
+                |> int_of_float
 
 let () =
   print_endline "";

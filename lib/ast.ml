@@ -3,6 +3,7 @@ type bop =
   | Sub
   | Mul
   | Div
+  | Pow
 [@@deriving show]
 
 type expr =

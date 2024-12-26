@@ -9,10 +9,12 @@
 %token SUB
 %token MUL
 %token DIV
+%token POW
 %token EOF
 
 %left SUM SUB
 %left MUL DIV
+%left POW
 
 %start <Ast.expr> prog
 %%
@@ -27,5 +29,6 @@ expr:
   | e1 = expr; SUB; e2 = expr { Bop (Sub, e1, e2) }
   | e1 = expr; MUL; e2 = expr { Bop (Mul, e1, e2) }
   | e1 = expr; DIV; e2 = expr { Bop (Div, e1, e2) }
+  | e1 = expr; POW; e2 = expr { Bop (Pow, e1, e2) }
   | LPAR; e = expr; RPAR {e}
   ;
