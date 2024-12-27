@@ -9,5 +9,6 @@ type bop =
 
 type expr =
   | Float of float
+  | Int of int
   | Bop of bop * expr * expr
 [@@deriving show]

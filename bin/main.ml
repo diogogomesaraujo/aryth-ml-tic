@@ -17,6 +17,7 @@ let parse (s : string) : Ast.expr option =
 let rec calc e =
   match e with
   | Ast.Float f -> f
+  | Ast.Int i -> float_of_int i
   | Ast.Bop (b, e1, e2) ->
     match b with
     | Ast.Sum -> (calc e1) +. (calc e2)
@@ -27,7 +28,7 @@ let rec calc e =
     | Ast.Root -> Float.pow (calc e1) (1. /. (calc e2))
 
 let rec main () =
-  print_endline "Escreva uma expressão para números reais ( X. ): ";
+  print_endline "Escreva uma expressão para números reais: ";
   let i = read_line () in
   match parse i with
   | Some parsed ->

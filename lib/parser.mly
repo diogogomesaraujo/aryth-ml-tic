@@ -3,6 +3,7 @@
 %}
 
 %token <float> FLOAT
+%token <int> INT
 %token LPAR
 %token RPAR
 %token SUM
@@ -26,6 +27,7 @@ prog:
 
 expr:
   | f = FLOAT { Float f }
+  | i = INT { Int i }
   | e1 = expr; SUM; e2 = expr { Bop (Sum, e1, e2) }
   | e1 = expr; SUB; e2 = expr { Bop (Sub, e1, e2) }
   | e1 = expr; MUL; e2 = expr { Bop (Mul, e1, e2) }
