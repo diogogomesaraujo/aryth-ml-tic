@@ -27,7 +27,7 @@ let rec calc e =
     | Ast.Root -> Float.pow (calc e1) (1. /. (calc e2))
 
 let rec main () =
-  print_endline "Escreva uma expressão para números reais ( X.X ): ";
+  print_endline "Escreva uma expressão para números reais ( X. ): ";
   let i = read_line () in
   match parse i with
   | Some parsed ->
