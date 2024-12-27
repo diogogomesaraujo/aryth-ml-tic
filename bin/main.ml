@@ -1,9 +1,18 @@
 open Interpreter
 
-let parse (s : string) : Ast.expr =
-  let lexbuf = Lexing.from_string s in
-  let ast = Parser.prog Lexer.read lexbuf in
-  ast
+let parse (s : string) : Ast.expr option =
+  try
+    let lexbuf = Lexing.from_string s in
+    try
+      Some(Parser.prog Lexer.read lexbuf)
+      with
+      | Parsing.Parse_error ->
+        prerr_endline "Syntax error!";
+        None
+  with
+  | _ ->
+    prerr_endline "Lexing Error!";
+    None
 
 let rec calc e =
   match e with
@@ -17,8 +26,15 @@ let rec calc e =
     | Ast.Pow -> Float.pow (calc e1) (calc e2)
     | Ast.Root -> Float.pow (calc e1) (1. /. (calc e2))
 
-let () =
-  print_endline "";
+let rec main () =
   print_endline "Escreva uma expressão para números reais ( X.X ): ";
-  let result = read_line () |> parse |> calc in
-  "Resultado: " ^ string_of_float result |> print_endline
+  let i = read_line () in
+  match parse i with
+  | Some parsed ->
+    let result = calc parsed in
+    "Resultado: " ^ string_of_float result |> print_endline;
+    main ()
+  | None ->
+    main ()
+
+let () = print_endline ""; main ()
