@@ -12,11 +12,13 @@
 %token DIV
 %token POW
 %token ROOT
+%token LOG
 %token EOF
 
 %left SUM SUB
 %left MUL DIV
 %left POW ROOT
+%right LOG
 
 %start <Ast.expr> prog
 %%
@@ -34,5 +36,6 @@ expr:
   | e1 = expr; DIV; e2 = expr { Bop (Div, e1, e2) }
   | e1 = expr; POW; e2 = expr { Bop (Pow, e1, e2) }
   | e1 = expr; ROOT; e2 = expr { Bop (Root, e1, e2) }
+  | LOG; e1 = expr; LPAR; e2 = expr; RPAR { Bop (Log, e1, e2) }
   | LPAR; e = expr; RPAR {e}
   ;

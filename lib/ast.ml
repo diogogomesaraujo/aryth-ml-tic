@@ -5,6 +5,7 @@ type bop =
   | Div
   | Pow
   | Root
+  | Log
 [@@deriving show]
 
 type expr =

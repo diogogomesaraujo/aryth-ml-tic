@@ -26,6 +26,7 @@ let rec calc e =
     | Ast.Div -> (calc e1) /. (calc e2)
     | Ast.Pow -> Float.pow (calc e1) (calc e2)
     | Ast.Root -> Float.pow (calc e1) (1. /. (calc e2))
+    | Ast. Log -> Float.log2 (calc e2) /. Float.log2 (calc e1)
 
 let rec main () =
   print_endline "Escreva uma expressão para números reais: ";

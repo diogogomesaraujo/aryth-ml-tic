@@ -20,4 +20,5 @@ rule read =
     | "/" { DIV }
     | "^" { POW }
     | "@" { ROOT }
+    | "log" { LOG }
     | eof { EOF }
