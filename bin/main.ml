@@ -7,20 +7,18 @@ let parse (s : string) : Ast.expr =
 
 let rec calc e =
   match e with
-  | Ast.Int i -> i
+  | Ast.Float f -> f
   | Ast.Bop (b, e1, e2) ->
     match b with
-    | Ast.Sum -> (calc e1) + (calc e2)
-    | Ast.Sub -> (calc e1) - (calc e2)
-    | Ast.Mul -> (calc e1) * (calc e2)
-    | Ast.Div -> (calc e1) / (calc e2)
-    | Ast.Pow -> Float.pow
-                  (calc e1 |> float_of_int)
-                  (calc e2 |> float_of_int)
-                |> int_of_float
+    | Ast.Sum -> (calc e1) +. (calc e2)
+    | Ast.Sub -> (calc e1) -. (calc e2)
+    | Ast.Mul -> (calc e1) *. (calc e2)
+    | Ast.Div -> (calc e1) /. (calc e2)
+    | Ast.Pow -> Float.pow (calc e1) (calc e2)
+    | Ast.Root -> Float.pow (calc e1) (1. /. (calc e2))
 
 let () =
   print_endline "";
-  print_endline "Escreva uma expressão para números inteiros: ";
+  print_endline "Escreva uma expressão para números reais ( X.X ): ";
   let result = read_line () |> parse |> calc in
-  string_of_int result |> print_endline
+  "Resultado: " ^ string_of_float result |> print_endline

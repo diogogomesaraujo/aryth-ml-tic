@@ -4,9 +4,10 @@ type bop =
   | Mul
   | Div
   | Pow
+  | Root
 [@@deriving show]
 
 type expr =
-  | Int of int
+  | Float of float
   | Bop of bop * expr * expr
 [@@deriving show]
