@@ -12,6 +12,7 @@ rule read =
     | white { read lexbuf }
     | int { INT (int_of_string (Lexing.lexeme lexbuf))}
     | float { FLOAT (float_of_string (Lexing.lexeme lexbuf))}
+    | "," { COMMA }
     | "(" { LPAR }
     | ")" { RPAR }
     | "+" { SUM }
