@@ -1,4 +1,5 @@
 open Interpreter
+module StringMap = Map.Make(String)
 
 let parse (s : string) : Ast.expr option =
   try
@@ -14,32 +15,42 @@ let parse (s : string) : Ast.expr option =
     prerr_endline "Lexing Error!";
     None
 
-let rec calc e =
+let eval e map =
+  match e with
+  | Ast.Let (x, e) -> (e, (StringMap.add x e map))
+  | Ast.Var v -> (StringMap.find v map, map)
+  | Ast.Float f -> (Ast.Float f, map)
+  | Ast.Int i -> (Ast.Int i, map)
+  | Ast.Bop (b, e1, e2)-> (Ast.Bop(b, e1, e2), map)
+
+let rec calc e map =
   match e with
   | Ast.Float f -> f
   | Ast.Int i -> float_of_int i
-  | Ast.Var _ -> prerr_endline "not matched yet"; exit 1
-  | Ast.Let _ -> prerr_endline "not matched yet"; exit 1
+  | Ast.Var v -> calc (StringMap.find v map) map
+  | Ast.Let (_, _) -> prerr_endline "error with the expression"; exit 1
   | Ast.Bop (b, e1, e2) ->
     match b with
-    | Ast.Sum -> (calc e1) +. (calc e2)
-    | Ast.Sub -> (calc e1) -. (calc e2)
-    | Ast.Mul -> (calc e1) *. (calc e2)
-    | Ast.Div -> (calc e1) /. (calc e2)
-    | Ast.Pow -> Float.pow (calc e1) (calc e2)
-    | Ast.Root -> Float.pow (calc e1) (1. /. (calc e2))
-    | Ast. Log -> Float.log2 (calc e2) /. Float.log2 (calc e1)
+    | Ast.Sum -> (calc e1 map) +. (calc e2 map)
+    | Ast.Sub -> (calc e1 map) -. (calc e2 map)
+    | Ast.Mul -> (calc e1 map) *. (calc e2 map)
+    | Ast.Div -> (calc e1 map) /. (calc e2 map)
+    | Ast.Pow -> Float.pow (calc e1 map) (calc e2 map)
+    | Ast.Root -> Float.pow (calc e1 map) (1. /. (calc e2 map))
+    | Ast.Log -> Float.log2 (calc e2 map) /. Float.log2 (calc e1 map)
     | _ -> prerr_endline "not matched yet"; exit 1
 
-let rec main () =
+let rec main map () =
   print_endline "Escreva uma expressão para números reais: ";
   let i = read_line () in
   match parse i with
   | Some parsed ->
-    let result = calc parsed in
+    let (evaled, map) = eval parsed map in
+    let result = calc evaled map in
     "Resultado: " ^ string_of_float result |> print_endline;
-    main ()
+    StringMap.iter (fun k _ -> Printf.printf "Key: %s\n" k ) map;
+    main map ()
   | None ->
-    main ()
+    main map ()
 
-let () = print_endline ""; main ()
+let () = print_endline ""; main StringMap.empty ()

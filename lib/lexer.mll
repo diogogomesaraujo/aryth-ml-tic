@@ -12,7 +12,6 @@ rule read =
     | white { read lexbuf }
     | int { INT (int_of_string (Lexing.lexeme lexbuf))}
     | float { FLOAT (float_of_string (Lexing.lexeme lexbuf))}
-    | "let" { LET }
     | "=" { EQUALS }
     | "," { COMMA }
     | "(" { LPAR }
@@ -24,4 +23,6 @@ rule read =
     | "^" { POW }
     | "@" { ROOT }
     | "log" { LOG }
+    | "let" { LET }
+    | ['a'-'z' 'A'-'Z' '_']+ { ID (Lexing.lexeme lexbuf) }
     | eof { EOF }
