@@ -18,6 +18,8 @@ let rec calc e =
   match e with
   | Ast.Float f -> f
   | Ast.Int i -> float_of_int i
+  | Ast.Var _ -> prerr_endline "not matched yet"; exit 1
+  | Ast.Let _ -> prerr_endline "not matched yet"; exit 1
   | Ast.Bop (b, e1, e2) ->
     match b with
     | Ast.Sum -> (calc e1) +. (calc e2)
@@ -27,6 +29,7 @@ let rec calc e =
     | Ast.Pow -> Float.pow (calc e1) (calc e2)
     | Ast.Root -> Float.pow (calc e1) (1. /. (calc e2))
     | Ast. Log -> Float.log2 (calc e2) /. Float.log2 (calc e1)
+    | _ -> prerr_endline "not matched yet"; exit 1
 
 let rec main () =
   print_endline "Escreva uma expressão para números reais: ";

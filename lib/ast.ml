@@ -1,4 +1,5 @@
 type bop =
+  | Let
   | Sum
   | Sub
   | Mul
@@ -9,6 +10,8 @@ type bop =
 [@@deriving show]
 
 type expr =
+  | Var of string
+  | Let of string * expr
   | Float of float
   | Int of int
   | Bop of bop * expr * expr
