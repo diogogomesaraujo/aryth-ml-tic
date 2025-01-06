@@ -36,7 +36,7 @@ let rec calc e map =
     | Ast.Mul -> (calc e1 map) *. (calc e2 map)
     | Ast.Div -> (calc e1 map) /. (calc e2 map)
     | Ast.Pow -> Float.pow (calc e1 map) (calc e2 map)
-    | Ast.Root -> Float.pow (calc e1 map) (1. /. (calc e2 map))
+    | Ast.Root -> Float.pow (calc e2 map) (1. /. (calc e1 map))
     | Ast.Log -> Float.log2 (calc e2 map) /. Float.log2 (calc e1 map)
     | _ -> prerr_endline "not matched yet"; exit 1
 
@@ -48,7 +48,6 @@ let rec main map () =
     let (evaled, map) = eval parsed map in
     let result = calc evaled map in
     "Resultado: " ^ string_of_float result |> print_endline;
-    StringMap.iter (fun k _ -> Printf.printf "Key: %s\n" k ) map;
     main map ()
   | None ->
     main map ()

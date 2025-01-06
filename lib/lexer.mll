@@ -21,7 +21,7 @@ rule read =
     | "*" { MUL }
     | "/" { DIV }
     | "^" { POW }
-    | "@" { ROOT }
+    | "root" { ROOT }
     | "log" { LOG }
     | "let" { LET }
     | ['a'-'z' 'A'-'Z' '_']+ { ID (Lexing.lexeme lexbuf) }
