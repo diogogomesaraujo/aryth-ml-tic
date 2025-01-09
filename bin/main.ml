@@ -18,7 +18,11 @@ let parse (s : string) : Ast.expr option =
 let eval e map =
   match e with
   | Ast.Let (x, e) -> (e, (StringMap.add x e map))
-  | Ast.Var v -> (StringMap.find v map, map)
+  | Ast.Var v -> (
+    (
+      try (StringMap.find v map) with Not_found -> prerr_endline ("Variable " ^ v ^ " not found!"); raise Not_found
+    ), map
+  )
   | Ast.Float f -> (Ast.Float f, map)
   | Ast.Int i -> (Ast.Int i, map)
   | Ast.Bop (b, e1, e2)-> (Ast.Bop(b, e1, e2), map)
@@ -27,7 +31,8 @@ let rec calc e map =
   match e with
   | Ast.Float f -> f
   | Ast.Int i -> float_of_int i
-  | Ast.Var v -> calc (StringMap.find v map) map
+  | Ast.Var v -> calc (try (StringMap.find v map) with Not_found -> prerr_endline ("Variable " ^ v ^ " not found!"); raise Not_found
+) map
   | Ast.Let (_, _) -> prerr_endline "error with the expression"; exit 1
   | Ast.Bop (b, e1, e2) ->
     match b with
