@@ -2,7 +2,7 @@
 
 A lightweight OCaml lexer and interpreter for arythmetic functions to consolidate what was learnt in Theory of Computation class.
 
-## Quick Start 🚀
+## Quick Start 
 ### Install Dependencies
 ```bash
 opam install dune menhir ppx_deriving
@@ -16,18 +16,14 @@ dune build
 dune exec ./bin/main.exe
 ```
 
-## Supported Operations 🔢
+## Supported Operations
 - Addition
 - Subtraction
 - Multiplication
 - Division
 - Power
 
-## Features 💡
-- 🔬 Precise lexical analysis
-- 🧩 OCaml-powered parsing
-- 🚀 Lightweight and fast
-## How It Works 🤔
+## How It Works
 - Tokenize input
 - Parse tokens
 - Interpret results
