@@ -1,6 +1,6 @@
-# aryth-ml-tic
+# arith-ml-tic
 
-A lightweight OCaml lexer and interpreter for arythmetic functions to consolidate what was learnt in Theory of Computation class.
+A lightweight OCaml lexer and interpreter for arithmetic functions to consolidate what was learnt in Theory of Computation class.
 
 ## Quick Start 
 ### Install Dependencies
